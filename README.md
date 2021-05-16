@@ -9,5 +9,6 @@ Required tools
 
 https://mediaarea.net/en/MediaInfo/Download/Ubuntu   libzen0 libmediainfo0    
     
-https://github.com/sbraz/pymediainfo  https://pymediainfo.readthedocs.io/en/stable/ 
-
+https://github.com/sbraz/pymediainfo    
+    
+ https://pymediainfo.readthedocs.io/en/stable/ 
