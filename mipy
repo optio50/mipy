@@ -1,0 +1,214 @@
+#!/usr/bin/python3
+
+import os
+import sys
+import re
+from pprint import pprint
+import textwrap
+from pymediainfo import MediaInfo
+
+class colors:
+    reset = '\033[0m'; bold = '\033[01m'; disable = '\033[02m'; underline = '\033[04m'
+    reverse = '\033[07m'; strikethrough = '\033[09m'; invisible = '\033[08m'; blink = '\033[05m'
+
+    class fg:
+        red = '\033[38;5;1m'; light_red = '\033[38;5;9m'; cyan = '\033[38;5;6m'
+        light_cyan = '\033[38;5;14m'; gray = '\033[38;5;240m'; light_gray = '\033[38;5;246m'
+        white = '\033[38;5;15m'; black = '\033[38;5;16m'; orange = '\033[38;5;202m'
+        light_orange = '\033[38;5;172m'; blue = '\033[38;5;21m'; light_blue = '\033[38;5;39m'
+        green = '\033[38;5;28m'; light_green = '\033[38;5;34m'; purple = '\033[38;5;93m'
+        light_purple = '\033[38;5;99m'; yellow = '\033[38;5;220m'; light_yellow = '\033[38;5;227m'
+        pink = '\033[38;5;201m'; light_pink = '\033[38;5;206m'
+
+    class bg:
+        red = '\033[48;5;1m'; light_red = '\033[48;5;9m'; cyan = '\033[48;5;6m'
+        light_cyan = '\033[48;5;14m'; gray = '\033[48;5;240m'; light_gray = '\033[48;5;246m'
+        white = '\033[48;5;15m'; black = '\033[48;5;16m'; orange = '\033[48;5;202m'
+        light_orange = '\033[48;5;172m'; blue = '\033[48;5;21m'; light_blue = '\033[48;5;39m'
+        green = '\033[48;5;28m'; light_green = '\033[48;5;34m'; purple = '\033[48;5;93m'
+        light_purple = '\033[48;5;99m'; yellow = '\033[48;5;220m'; light_yellow = '\033[48;5;227m'
+
+if len(sys.argv) == 1:
+   print(colors.fg.red,"Usage:\n", colors.reset, os.path.basename(sys.argv[0]), "<Some-media-file_or-directory>")
+   sys.exit()
+
+# Typical Video files
+suffix = (".mkv", ".avi", ".mp4", ".mpg", ".webm", ".wmv" ".mov", ".mp3")
+
+def f_names():
+    media = []
+    if os.path.isdir(sys.argv[1]):
+        for filename in os.listdir(sys.argv[1]):
+            file = os.path.join(sys.argv[1], filename)
+            if file.endswith(suffix):
+                media.append(file.strip())
+    else:
+        file = sys.argv[1]
+        if file.endswith(suffix):
+            media.append(file.strip())
+    return media
+
+
+def info():
+
+    media_info = MediaInfo.parse(media[count-1])
+
+    for track in media_info.tracks:
+        if track.track_type == 'General':
+            #pprint(track.to_data())
+            print(colors.fg.gray,"=" * 18)
+            print(colors.fg.purple,"General",colors.fg.gray,"        |")
+            print(colors.fg.gray,"=" * 18,colors.reset)
+            if track.title is not None:
+                print(colors.fg.light_gray,"Title............:",colors.fg.yellow,track.title)
+                #print(colors.fg.light_gray,"Title............:",colors.fg.red, "No Title")
+            if track.name is not None:
+                print(colors.fg.light_gray,"Track Name.......:",colors.fg.yellow,track.track_name)
+            if track.collection is not None:
+                print(colors.fg.light_gray,"Series...........:",colors.fg.yellow,track.collection)
+            if track.season is not None:
+                print(colors.fg.light_gray,"Season...........:",colors.fg.yellow,track.season)
+            if track.episode is not None:
+                print(colors.fg.light_gray,"Episode..........:",colors.fg.yellow,track.episode)
+            if track.other_overall_bit_rate is not None:
+                try:
+                    print(colors.fg.light_gray,"Overall Bit Rate.:",colors.fg.yellow,track.other_overall_bit_rate[0])
+                except:
+                    print(colors.fg.light_gray,"Overall Bit Rate.:",colors.fg.yellow,track.overall_bit_rate)
+            if track.other_duration is not None:
+                try:
+                    print(colors.fg.light_gray,"Duration.........:",colors.fg.yellow,track.other_duration[3], "  (hh:mm:ss.mss)")
+                except:
+                    print(colors.fg.light_gray,"Duration.........:",colors.fg.yellow,track.other_duration)
+            if track.count_of_video_streams is not None:
+                print(colors.fg.light_gray,"Video Streams....:",colors.fg.yellow,track.count_of_video_streams)
+            if track.count_of_ausio_streams is not None:
+                print(colors.fg.light_gray,"Audio Streams....:",colors.fg.yellow,track.count_of_audio_streams)
+            if track.count_of_text_streams is not None:
+                print(colors.fg.light_gray,"Subtitle Streams.:",colors.fg.yellow,track.count_of_text_streams)
+            if track.other_file_size[4] is not None:
+                print(colors.fg.light_gray,"File Size........:",colors.fg.yellow,track.other_file_size[4])
+            if track.comment is not None:
+                print(colors.fg.light_gray,"Comment..........:",colors.fg.light_blue,textwrap.fill(str(track.comment),width=70),colors.reset,)
+        if track.track_type == 'Video':
+            #pprint(track.to_data())
+            print(colors.fg.gray,"=" * 18)
+            print(colors.fg.purple,"Video",colors.fg.gray,"          |")
+            print(colors.fg.gray,"=" * 18)
+            print(colors.fg.light_gray,"Format...........:",colors.fg.yellow,track.format)
+            print(colors.fg.light_gray,"Format info......:",colors.fg.yellow,track.format_info)
+            print(colors.fg.light_gray,"Profile..........:",colors.fg.yellow,track.format_profile)
+            print(colors.fg.light_gray,"Format Settings..:",colors.fg.yellow,track.format_settings)
+            print(colors.fg.light_gray,"Codec............:",colors.fg.yellow,track.codec_id, track.encoded_library_name)
+            
+            if track.nominal_bit_rate is not None:
+                print(colors.fg.light_gray,"Bitrate..........:",colors.fg.yellow,track.nominal_bit_rate)
+            elif track.other_bit_rate is not None:
+                print(colors.fg.light_gray,"Bitrate..........:",colors.fg.yellow,track.other_bit_rate[0])
+            print(colors.fg.light_gray,"Resolution.......:",colors.fg.yellow,track.width,"x",track.height)
+            if track.display_aspect_ratio and track.other_display_aspect_ratio is not None:
+                print(colors.fg.light_gray,"Aspect...........:",colors.fg.yellow,track.display_aspect_ratio, "(",track.other_display_aspect_ratio[0],")")
+            else:
+                print(colors.fg.light_gray,"Aspect...........:",colors.fg.yellow,track.display_aspect_ratio)
+            print(colors.fg.light_gray,"Frame Rate Mode..:",colors.fg.yellow,track.frame_rate_mode)
+            print(colors.fg.light_gray,"Frame Rate.......:",colors.fg.yellow,track.frame_rate)
+            print(colors.fg.light_gray,"Color Space......:",colors.fg.yellow,track.color_space)
+            print(colors.fg.light_gray,"Sampling.........:",colors.fg.yellow,track.chroma_subsampling)
+            print(colors.fg.light_gray,"Bit Depth........:",colors.fg.yellow,track.bit_depth)
+            print(colors.fg.light_gray,"Scan Type........:",colors.fg.yellow,track.scan_type)
+
+        if track.track_type == 'Audio':
+            #pprint(track.to_data())
+            print(colors.fg.gray,"=" * 18)
+            print(colors.fg.purple,"Audio",colors.fg.gray,"          |")
+            print(colors.fg.gray,"=" * 18)
+            
+            if track.channel_layout is not None:
+                print(colors.fg.light_gray,"Channel Layout...:",colors.fg.yellow, track.channel_layout)
+            if track.channel_positions is not None:
+                print(colors.fg.light_gray,"Channel Position.:",colors.fg.yellow, track.channel_positions)
+            if track.channel_s is not None:
+                print(colors.fg.light_gray,"Channels.........:",colors.fg.yellow, track.channel_s)
+            if track.codec_id is not None:
+                print(colors.fg.light_gray,"Codec ID.........:",colors.fg.yellow, track.codec_id)
+            if track.format_profile is not None:
+                print(colors.fg.light_gray,"Format...........:",colors.fg.yellow, track.format, track.format_profile)
+            if track.nominal_bit_rate is not None:
+                print(colors.fg.light_gray,"Bitrate..........:",colors.fg.yellow, track.nominal_bit_rate)
+            elif track.other_bit_rate is not None:
+                print(colors.fg.light_gray,"Bitrate..........:",colors.fg.yellow, track.other_bit_rate[0])
+            if track.bit_rate_mode is not None:
+                print(colors.fg.light_gray,"Bitrate Mode.....:",colors.fg.yellow, track.bit_rate_mode)
+            if track.format_info is not None:
+                print(colors.fg.light_gray,"Format Info......:",colors.fg.yellow, track.format_info)
+            if track.other_sampling_rate is not None:
+                print(colors.fg.light_gray,"Sampling Rate....:",colors.fg.yellow, track.other_sampling_rate[0])
+            if track.compression_mode is not None:
+                print(colors.fg.light_gray,"Compression Mode.:",colors.fg.yellow, track.compression_mode)
+            if track.default is not None:
+                print(colors.fg.light_gray,"Default..........:",colors.fg.yellow, track.default)
+            if track.other_language is not None:
+                try:
+                    print(colors.fg.light_gray,"Language.........:",colors.fg.yellow,track.other_language[0])
+                except:
+                    print(colors.fg.light_gray,"Language.........:",colors.fg.yellow,track.language)
+        if track.track_type == 'Text':
+            print(colors.fg.gray,"=" * 18)
+            print(colors.fg.purple,"Subtitles",colors.fg.gray,"      |")
+            print(colors.fg.gray,"=" * 18)
+            print(colors.fg.light_gray,"Title............:",colors.fg.yellow,track.title)
+            print(colors.fg.light_gray,"Codec ID.........:",colors.fg.yellow,track.codec_id)
+            #print(colors.fg.light_gray,"Count............:",colors.fg.yellow,track.count)
+            try:
+                print(colors.fg.light_gray,"Language.........:",colors.fg.yellow,track.other_language[0])
+            except:
+                print(colors.fg.light_gray,"Language.........:",colors.fg.yellow,track.language)
+            #pprint(track.to_data())
+        if track.track_type == 'Menu':
+            print(colors.fg.gray,"=" * 18)
+            print(colors.fg.purple,"Menu",colors.fg.gray,"           |")
+            print(colors.fg.gray,"=" * 18)
+            t_chap = int(track.chapters_pos_end) - int(track.chapters_pos_begin)
+            print(colors.fg.light_gray,"Chapters.........:",colors.fg.yellow,t_chap)
+            print('')
+            for key, value in track.to_data().items(): # https://github.com/sbraz/pymediainfo/issues/91
+                if re.search(r"\d+_\d+_\d+", key):
+                    keyFormatted = key.replace("_", ":")
+                    keyFormatted = f"{keyFormatted[0:-3]}.{keyFormatted[-3:]}"
+                    print(f"{keyFormatted}\t{value.replace(':', '')}")
+            #pprint(track.to_data())
+        if track.track_type == 'Image':
+            #pprint(track.to_data())
+            print(colors.fg.gray,"=" * 18)
+            print(colors.fg.purple,"Image",colors.fg.gray,"           |")
+            print(colors.fg.gray,"=" * 18)
+            print(colors.fg.light_gray,"Bit Depth..........:",colors.fg.yellow,track.bit_depth)
+            print(colors.fg.light_gray,"Chroma.............:",colors.fg.yellow,track.chroma_subsampling)
+            print(colors.fg.light_gray,"Color Space........:",colors.fg.yellow,track.color_space)
+            print(colors.fg.light_gray,"Commercial Name....:",colors.fg.yellow,track.commercial_name)
+            print(colors.fg.light_gray,"Compression Mode...:",colors.fg.yellow,track.compression_mode)
+            print(colors.fg.light_gray,"Height x Width.....:",colors.fg.yellow,track.height,"x",track.width)
+
+
+def sorted_nicely(titles):
+    """ Sort the given iterable in the way that humans expect."""
+    convert = lambda text: int(text) if text.isdigit() else text
+    alphanum_key = lambda key: [ convert(c) for c in re.split('([0-9]+)', key) ]
+    return sorted(titles, key = alphanum_key)
+
+
+media = f_names()
+media = sorted_nicely(media)
+end_num = len(media)
+count = 1
+
+while count <= end_num:
+    print(colors.fg.gray,"=" * 75)
+    print(colors.fg.pink,f"{'MEDIAINFO'.center(75)}")
+    print(colors.fg.gray,"=" * 75)
+    print(colors.fg.green,"File {} of {}     ".format(count, end_num), colors.fg.orange, colors.bold, os.path.abspath(media[count-1]), colors.reset)
+    info()
+    count = count + 1
+    print('')
+    #print(colors.reset,'='*75, sep="")
+
