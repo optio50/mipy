@@ -82,7 +82,7 @@ def info():
                     print(colors.fg.light_gray,"Duration.........:",colors.fg.yellow,track.other_duration)
             if track.count_of_video_streams is not None:
                 print(colors.fg.light_gray,"Video Streams....:",colors.fg.yellow,track.count_of_video_streams)
-            if track.count_of_ausio_streams is not None:
+            if track.count_of_audio_streams is not None:
                 print(colors.fg.light_gray,"Audio Streams....:",colors.fg.yellow,track.count_of_audio_streams)
             if track.count_of_text_streams is not None:
                 print(colors.fg.light_gray,"Subtitle Streams.:",colors.fg.yellow,track.count_of_text_streams)
