@@ -33,7 +33,7 @@ if len(sys.argv) == 1:
    sys.exit()
 
 # Typical Video files
-suffix = (".mkv", ".avi", ".mp4", ".mpg", ".webm", ".wmv" ".mov", ".mp3")
+suffix = (".mkv", ".avi", ".mp4", ".mpg", ".webm", ".wmv" ".mov", ".mp3", ".ogg")
 
 def f_names():
     media = []
