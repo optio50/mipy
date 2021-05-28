@@ -32,7 +32,7 @@ if len(sys.argv) == 1:
    print(colors.fg.red,"Usage:\n", colors.reset, os.path.basename(sys.argv[0]), "<Some-media-file_or-directory>")
    sys.exit()
 
-# Typical Video files
+# Typical Media files
 suffix = (".mkv", ".avi", ".mp4", ".mpg", ".webm", ".wmv" ".mov", ".mp3", ".ogg")
 
 def f_names():
@@ -64,6 +64,16 @@ def info():
                 #print(colors.fg.light_gray,"Title............:",colors.fg.red, "No Title")
             if track.name is not None:
                 print(colors.fg.light_gray,"Track Name.......:",colors.fg.yellow,track.track_name)
+            if track.album is not None:
+                print(colors.fg.light_gray,"Album............:",colors.fg.yellow,track.album)
+            if track.album_performer is not None:
+                print(colors.fg.light_gray,"Album Artist.....:",colors.fg.yellow,track.album_performer)
+            if track.genre is not None:
+                print(colors.fg.light_gray,"Genre............:",colors.fg.yellow,track.genre)
+            if track.performer is not None:
+                print(colors.fg.light_gray,"Artist...........:",colors.fg.yellow,track.performer)
+            if track.performer_url is not None:
+                print(colors.fg.light_gray,"Website..........:",colors.fg.yellow,track.performer_url)
             if track.collection is not None:
                 print(colors.fg.light_gray,"Series...........:",colors.fg.yellow,track.collection)
             if track.season is not None:
@@ -75,6 +85,12 @@ def info():
                     print(colors.fg.light_gray,"Overall Bit Rate.:",colors.fg.yellow,track.other_overall_bit_rate[0])
                 except:
                     print(colors.fg.light_gray,"Overall Bit Rate.:",colors.fg.yellow,track.overall_bit_rate)
+            if track.cover is not None:
+                print(colors.fg.light_gray,"Cover............:",colors.fg.yellow,track.cover)
+            if track.cover_mime is not None:
+                print(colors.fg.light_gray,"Cover Mime.......:",colors.fg.yellow,track.cover_mime)
+            if track.cover_type is not None:
+                print(colors.fg.light_gray,"Cover Type.......:",colors.fg.yellow,track.cover_type)
             if track.other_duration is not None:
                 try:
                     print(colors.fg.light_gray,"Duration.........:",colors.fg.yellow,track.other_duration[3], "  (hh:mm:ss.mss)")
@@ -90,6 +106,8 @@ def info():
                 print(colors.fg.light_gray,"File Size........:",colors.fg.yellow,track.other_file_size[4])
             if track.comment is not None:
                 print(colors.fg.light_gray,"Comment..........:",colors.fg.light_blue,textwrap.fill(str(track.comment),width=70),colors.reset,)
+            if track.description is not None:
+                print(colors.fg.light_gray,"Description......:",colors.fg.light_blue,textwrap.fill(str(track.description),width=70),colors.reset,)
         if track.track_type == 'Video':
             #pprint(track.to_data())
             print(colors.fg.gray,"=" * 18)
@@ -122,7 +140,7 @@ def info():
             print(colors.fg.gray,"=" * 18)
             print(colors.fg.purple,"Audio",colors.fg.gray,"          |")
             print(colors.fg.gray,"=" * 18)
-            
+
             if track.channel_layout is not None:
                 print(colors.fg.light_gray,"Channel Layout...:",colors.fg.yellow, track.channel_layout)
             if track.channel_positions is not None:
@@ -133,14 +151,16 @@ def info():
                 print(colors.fg.light_gray,"Codec ID.........:",colors.fg.yellow, track.codec_id)
             if track.format_profile is not None:
                 print(colors.fg.light_gray,"Format...........:",colors.fg.yellow, track.format, track.format_profile)
-            if track.nominal_bit_rate is not None:
-                print(colors.fg.light_gray,"Bitrate..........:",colors.fg.yellow, track.nominal_bit_rate)
-            elif track.other_bit_rate is not None:
+            if track.other_bit_rate is not None:
                 print(colors.fg.light_gray,"Bitrate..........:",colors.fg.yellow, track.other_bit_rate[0])
+            elif track.nominal_bit_rate is not None:
+                print(colors.fg.light_gray,"Bitrate..........:",colors.fg.yellow, track.nominal_bit_rate)
             if track.bit_rate_mode is not None:
                 print(colors.fg.light_gray,"Bitrate Mode.....:",colors.fg.yellow, track.bit_rate_mode)
             if track.format_info is not None:
                 print(colors.fg.light_gray,"Format Info......:",colors.fg.yellow, track.format_info)
+            if track.format_settings is not None:
+                print(colors.fg.light_gray,"Format Settings..:",colors.fg.yellow, track.format_settings)
             if track.other_sampling_rate is not None:
                 print(colors.fg.light_gray,"Sampling Rate....:",colors.fg.yellow, track.other_sampling_rate[0])
             if track.compression_mode is not None:
