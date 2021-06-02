@@ -9,7 +9,7 @@ suffix = (".mkv", ".avi", ".mp4", ".mpg", ".webm", ".wmv" ".mov", ".mp3")
 `git clone https://github.com/optio50/mipy`    
 `cd mipy`    
 `chmod +x mipy`    
-`./mipy`
+`./mipy <Some-media-file_or-directory>`
     
 ![ScreenShot](https://raw.githubusercontent.com/optio50/mipy/main/mipy.png?raw=true|alt=octocat)    
 Required tools    
