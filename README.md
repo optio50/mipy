@@ -11,7 +11,7 @@ suffix = (".mkv", ".avi", ".mp4", ".mpg", ".webm", ".wmv" ".mov", ".mp3")
 `chmod +x mipy`    
 `./mipy <Some-media-file_or-directory>`    
 
-    Required tools    
+Required tools    
     
 https://mediaarea.net/en/MediaInfo/Download/Ubuntu   libzen0 libmediainfo0    
     
