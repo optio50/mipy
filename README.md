@@ -9,13 +9,15 @@ suffix = (".mkv", ".avi", ".mp4", ".mpg", ".webm", ".wmv" ".mov", ".mp3")
 `git clone https://github.com/optio50/mipy`    
 `cd mipy`    
 `chmod +x mipy`    
-`./mipy <Some-media-file_or-directory>`
-    
-![ScreenShot](https://raw.githubusercontent.com/optio50/mipy/main/mipy.png?raw=true|alt=octocat)    
-Required tools    
+`./mipy <Some-media-file_or-directory>`    
 
+    Required tools    
+    
 https://mediaarea.net/en/MediaInfo/Download/Ubuntu   libzen0 libmediainfo0    
     
 https://github.com/sbraz/pymediainfo    
     
- https://pymediainfo.readthedocs.io/en/stable/ 
+https://pymediainfo.readthedocs.io/en/stable/ 
+
+    
+![ScreenShot](https://raw.githubusercontent.com/optio50/mipy/main/mipy.png?raw=true|alt=octocat)    
