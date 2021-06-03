@@ -17,6 +17,7 @@ https://mediaarea.net/en/MediaInfo/Download/Ubuntu   libzen0 libmediainfo0
     
 https://github.com/sbraz/pymediainfo    
     
+How to use it    
 https://pymediainfo.readthedocs.io/en/stable/ 
 
     
