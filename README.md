@@ -24,4 +24,4 @@ https://pymediainfo.readthedocs.io/en/stable/
 
 
     
-![ScreenShot](https://raw.githubusercontent.com/optio50/mipy/main/mipy.png?raw=true|alt=octocat)    
+![ScreenShot](https://raw.githubusercontent.com/optio50/mipy/main/mipy2.png?raw=true|alt=octocat)    
